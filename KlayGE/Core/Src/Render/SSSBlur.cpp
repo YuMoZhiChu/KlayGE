@@ -94,14 +94,14 @@ namespace KlayGE
 			blur_y_tex_ = rf.MakeTexture2D(tex->Width(0), tex->Height(0), 1, 1, tex->Format(), tex->SampleCount(), tex->SampleQuality(),
 				EAH_GPU_Read | EAH_GPU_Write);
 
-			blur_x_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*blur_x_tex_, 0, 1, 0));
+			blur_x_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(blur_x_tex_, 0, 1, 0));
 			blur_x_fb_->Attach(FrameBuffer::ATT_DepthStencil, frame_buffer_->Attached(FrameBuffer::ATT_DepthStencil));
-			blur_y_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*blur_y_tex_, 0, 1, 0));
+			blur_y_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(blur_y_tex_, 0, 1, 0));
 			blur_y_fb_->Attach(FrameBuffer::ATT_DepthStencil, frame_buffer_->Attached(FrameBuffer::ATT_DepthStencil));
 
 			if (mrt_blend_support_)
 			{
-				frame_buffer_->Attach(FrameBuffer::ATT_Color1, rf.Make2DRenderView(*blur_y_tex_, 0, 1, 0));
+				frame_buffer_->Attach(FrameBuffer::ATT_Color1, rf.Make2DRenderView(blur_y_tex_, 0, 1, 0));
 			}
 		}
 	}

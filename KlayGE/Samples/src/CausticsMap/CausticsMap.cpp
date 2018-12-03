@@ -666,9 +666,9 @@ void CausticsMapApp::InitBuffer()
 		refract_obj_ds_tex_b_ = rf.MakeTexture2D(CAUSTICS_GRID_SIZE, CAUSTICS_GRID_SIZE, 1, 1, ds_fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
 		background_ds_tex_ = rf.MakeTexture2D(CAUSTICS_GRID_SIZE, CAUSTICS_GRID_SIZE, 1, 1, ds_fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
 
-		refract_obj_ds_view_f = rf.Make2DDepthStencilRenderView(*refract_obj_ds_tex_f_, 0, 1, 0);
-		refract_obj_ds_view_b = rf.Make2DDepthStencilRenderView(*refract_obj_ds_tex_b_, 0, 1, 0);
-		background_ds_view = rf.Make2DDepthStencilRenderView(*background_ds_tex_, 0, 1, 0);
+		refract_obj_ds_view_f = rf.Make2DDepthStencilRenderView(refract_obj_ds_tex_f_, 0, 1, 0);
+		refract_obj_ds_view_b = rf.Make2DDepthStencilRenderView(refract_obj_ds_tex_b_, 0, 1, 0);
+		background_ds_view = rf.Make2DDepthStencilRenderView(background_ds_tex_, 0, 1, 0);
 	}
 	else
 	{
@@ -684,23 +684,23 @@ void CausticsMapApp::InitBuffer()
 	background_depth_tex_ = rf.MakeTexture2D(CAUSTICS_GRID_SIZE, CAUSTICS_GRID_SIZE, 1, 1, depth_fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
 
 	background_fb_ = rf.MakeFrameBuffer();
-	background_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*background_depth_tex_, 0, 1, 0));
+	background_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(background_depth_tex_, 0, 1, 0));
 	background_fb_->Attach(FrameBuffer::ATT_DepthStencil, background_ds_view);
 
 	refract_obj_fb_d_f_ = rf.MakeFrameBuffer();
-	refract_obj_fb_d_f_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*refract_obj_depth_tex_f_, 0, 1, 0));
+	refract_obj_fb_d_f_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(refract_obj_depth_tex_f_, 0, 1, 0));
 	refract_obj_fb_d_f_->Attach(FrameBuffer::ATT_DepthStencil, refract_obj_ds_view_f);
 
 	refract_obj_fb_d_b_ = rf.MakeFrameBuffer();
-	refract_obj_fb_d_b_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*refract_obj_depth_tex_b_, 0, 1, 0));
+	refract_obj_fb_d_b_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(refract_obj_depth_tex_b_, 0, 1, 0));
 	refract_obj_fb_d_b_->Attach(FrameBuffer::ATT_DepthStencil, refract_obj_ds_view_b);
 
 	refract_obj_fb_f_ = rf.MakeFrameBuffer();
-	refract_obj_fb_f_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*refract_obj_N_texture_f_, 0, 1, 0));
+	refract_obj_fb_f_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(refract_obj_N_texture_f_, 0, 1, 0));
 	refract_obj_fb_f_->Attach(FrameBuffer::ATT_DepthStencil, refract_obj_ds_view_f);
 	
 	refract_obj_fb_b_ = rf.MakeFrameBuffer();
-	refract_obj_fb_b_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*refract_obj_N_texture_b_, 0, 1, 0));
+	refract_obj_fb_b_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(refract_obj_N_texture_b_, 0, 1, 0));
 	refract_obj_fb_b_->Attach(FrameBuffer::ATT_DepthStencil, refract_obj_ds_view_b);
 
 	auto const fmt = caps.BestMatchTextureRenderTargetFormat(
@@ -709,7 +709,7 @@ void CausticsMapApp::InitBuffer()
 	caustics_texture_ = rf.MakeTexture2D(CAUSTICS_GRID_SIZE, CAUSTICS_GRID_SIZE, 1, 1, fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
 	caustics_texture_filtered_ = rf.MakeTexture2D(CAUSTICS_GRID_SIZE, CAUSTICS_GRID_SIZE, 1, 1, caustics_texture_->Format(), 1, 0, EAH_GPU_Read | EAH_GPU_Write);
 	caustics_fb_ = rf.MakeFrameBuffer();
-	caustics_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*caustics_texture_, 0, 1, 0));
+	caustics_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(caustics_texture_, 0, 1, 0));
 
 	scene_fb_ = rf.MakeFrameBuffer();
 	scene_fb_->GetViewport()->camera = re.DefaultFrameBuffer()->GetViewport()->camera;
@@ -728,7 +728,7 @@ void CausticsMapApp::InitEnvCube()
 		caps.fp_color_support ? MakeArrayRef({ EF_B10G11R11F, EF_ABGR16F }) : MakeArrayRef({ EF_ABGR8, EF_ARGB8 }), 1, 0);
 	BOOST_ASSERT(fmt != EF_Unknown);
 	env_tex_ = rf.MakeTexture2D(ENV_CUBE_MAP_SIZE, ENV_CUBE_MAP_SIZE, 1, 1, fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-	env_cube_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*env_tex_, 0, 1, 0));
+	env_cube_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(env_tex_, 0, 1, 0));
 	env_cube_buffer_->Attach(FrameBuffer::ATT_DepthStencil, depth_view);
 
 	env_cube_tex_ = rf.MakeTextureCube(ENV_CUBE_MAP_SIZE, 1, 1, env_tex_->Format(), 1, 0, EAH_GPU_Read | EAH_GPU_Write);
@@ -756,7 +756,7 @@ void CausticsMapApp::InitCubeSM()
 		caps.pack_to_rgba_required ? MakeArrayRef({ EF_ABGR8, EF_ARGB8 }) : MakeArrayRef({ EF_R16F, EF_R32F }), 1, 0);
 	BOOST_ASSERT(fmt != EF_Unknown);
 	shadow_tex_ = rf.MakeTexture2D(SHADOW_MAP_SIZE, SHADOW_MAP_SIZE, 1, 1, fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-	shadow_cube_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*shadow_tex_, 0, 1, 0));
+	shadow_cube_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(shadow_tex_, 0, 1, 0));
 	shadow_cube_buffer_->Attach(FrameBuffer::ATT_DepthStencil, depth_view);
 
 	shadow_cube_tex_ = rf.MakeTextureCube(SHADOW_MAP_SIZE, 1, 1, shadow_tex_->Format(), 1, 0, EAH_GPU_Read | EAH_GPU_Write);
@@ -830,7 +830,7 @@ void CausticsMapApp::OnResize(uint32_t width, uint32_t height)
 	auto fmt = caps.BestMatchTextureRenderTargetFormat({ EF_B10G11R11F, EF_ABGR8, EF_ARGB8 }, 1, 0);
 	BOOST_ASSERT(fmt != EF_Unknown);
 	scene_texture_ = rf.MakeTexture2D(width, height, 1, 1, fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-	scene_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*scene_texture_, 0, 1, 0));
+	scene_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(scene_texture_, 0, 1, 0));
 	fmt = caps.BestMatchRenderTargetFormat({ EF_D24S8, EF_D16 }, 1, 0);
 	BOOST_ASSERT(fmt != EF_Unknown);
 	scene_fb_->Attach(FrameBuffer::ATT_DepthStencil, rf.Make2DDepthStencilRenderView(width, height, fmt, 1, 0));

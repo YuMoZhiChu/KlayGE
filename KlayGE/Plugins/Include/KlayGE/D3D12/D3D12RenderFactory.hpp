@@ -72,21 +72,32 @@ namespace KlayGE
 
 		virtual FencePtr MakeFence() override;
 
-		RenderViewPtr Make1DRenderView(Texture& texture, int first_array_index, int array_size, int level);
-		RenderViewPtr Make2DRenderView(Texture& texture, int first_array_index, int array_size, int level);
-		RenderViewPtr Make2DRenderView(Texture& texture, int array_index, Texture::CubeFaces face, int level);
-		RenderViewPtr Make2DRenderView(Texture& texture, int array_index, uint32_t slice, int level);
-		RenderViewPtr MakeCubeRenderView(Texture& texture, int array_index, int level);
-		RenderViewPtr Make3DRenderView(Texture& texture, int array_index, uint32_t first_slice, uint32_t num_slices, int level);
-		RenderViewPtr MakeGraphicsBufferRenderView(GraphicsBuffer& gbuffer, uint32_t width, uint32_t height, ElementFormat pf);
+		RenderViewPtr Make1DRenderView(TexturePtr const & texture, int first_array_index, int array_size, int level,
+			ElementFormat pf) override;
+		RenderViewPtr Make2DRenderView(TexturePtr const & texture, int first_array_index, int array_size, int level,
+			ElementFormat pf) override;
+		RenderViewPtr Make2DRenderView(TexturePtr const & texture, int array_index, Texture::CubeFaces face, int level,
+			ElementFormat pf) override;
+		RenderViewPtr Make2DRenderView(TexturePtr const & texture, int array_index, uint32_t slice, int level, ElementFormat pf) override;
+		RenderViewPtr MakeCubeRenderView(TexturePtr const & texture, int array_index, int level, ElementFormat pf) override;
+		RenderViewPtr Make3DRenderView(TexturePtr const & texture, int array_index, uint32_t first_slice, uint32_t num_slices, int level,
+			ElementFormat pf) override;
+		RenderViewPtr MakeGraphicsBufferRenderView(GraphicsBufferPtr const & gbuffer, ElementFormat pf, uint32_t first_elem,
+			uint32_t num_elems) override;
+
 		RenderViewPtr Make2DDepthStencilRenderView(uint32_t width, uint32_t height, ElementFormat pf,
-			uint32_t sample_count, uint32_t sample_quality);
-		RenderViewPtr Make1DDepthStencilRenderView(Texture& texture, int first_array_index, int array_size, int level);
-		RenderViewPtr Make2DDepthStencilRenderView(Texture& texture, int first_array_index, int array_size, int level);
-		RenderViewPtr Make2DDepthStencilRenderView(Texture& texture, int array_index, Texture::CubeFaces face, int level);
-		RenderViewPtr Make2DDepthStencilRenderView(Texture& texture, int array_index, uint32_t slice, int level);
-		RenderViewPtr MakeCubeDepthStencilRenderView(Texture& texture, int array_index, int level);
-		RenderViewPtr Make3DDepthStencilRenderView(Texture& texture, int array_index, uint32_t first_slice, uint32_t num_slices, int level);
+			uint32_t sample_count, uint32_t sample_quality) override;
+		RenderViewPtr Make1DDepthStencilRenderView(TexturePtr const & texture, int first_array_index, int array_size, int level,
+			ElementFormat pf) override;
+		RenderViewPtr Make2DDepthStencilRenderView(TexturePtr const & texture, int first_array_index, int array_size, int level,
+			ElementFormat pf) override;
+		RenderViewPtr Make2DDepthStencilRenderView(TexturePtr const & texture, int array_index, Texture::CubeFaces face, int level,
+			ElementFormat pf) override;
+		RenderViewPtr Make2DDepthStencilRenderView(TexturePtr const & texture, int array_index, uint32_t slice, int level,
+			ElementFormat pf) override;
+		RenderViewPtr MakeCubeDepthStencilRenderView(TexturePtr const & texture, int array_index, int level, ElementFormat pf) override;
+		RenderViewPtr Make3DDepthStencilRenderView(TexturePtr const & texture, int array_index, uint32_t first_slice, uint32_t num_slices,
+			int level, ElementFormat pf) override;
 
 		UnorderedAccessViewPtr Make1DUnorderedAccessView(TexturePtr const & texture, int first_array_index, int array_size,
 			int level, ElementFormat pf) override;

@@ -350,7 +350,7 @@ void ParticleEditorApp::OnResize(uint32_t width, uint32_t height)
 		BOOST_ASSERT(ds_fmt != EF_Unknown);
 
 		scene_ds_tex_ = rf.MakeTexture2D(width, height, 1, 1, ds_fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-		ds_view = rf.Make2DDepthStencilRenderView(*scene_ds_tex_, 0, 1, 0);
+		ds_view = rf.Make2DDepthStencilRenderView(scene_ds_tex_, 0, 1, 0);
 
 		depth_to_linear_pp_->InputPin(0, scene_ds_tex_);
 		depth_to_linear_pp_->OutputPin(0, scene_depth_tex_);
@@ -359,11 +359,11 @@ void ParticleEditorApp::OnResize(uint32_t width, uint32_t height)
 	{
 		ds_view = rf.Make2DDepthStencilRenderView(width, height, EF_D16, 1, 0);
 
-		scene_depth_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*scene_depth_tex_, 0, 1, 0));
+		scene_depth_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(scene_depth_tex_, 0, 1, 0));
 		scene_depth_buffer_->Attach(FrameBuffer::ATT_DepthStencil, ds_view);
 	}
 
-	scene_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*scene_tex_, 0, 1, 0));
+	scene_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(scene_tex_, 0, 1, 0));
 	scene_buffer_->Attach(FrameBuffer::ATT_DepthStencil, ds_view);
 
 	copy_pp_->InputPin(0, scene_tex_);

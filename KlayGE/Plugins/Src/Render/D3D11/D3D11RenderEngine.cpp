@@ -375,7 +375,7 @@ namespace KlayGE
 
 					stereo_nv_3d_vision_fb_ = rf.MakeFrameBuffer();
 					stereo_nv_3d_vision_fb_->Attach(FrameBuffer::ATT_Color0,
-						rf.Make2DRenderView(*stereo_nv_3d_vision_tex_, 0, 1, 0));
+						rf.Make2DRenderView(stereo_nv_3d_vision_tex_, 0, 1, 0));
 
 					NVSTEREOIMAGEHEADER sih;
 					sih.dwSignature = NVSTEREO_IMAGE_SIGNATURE;

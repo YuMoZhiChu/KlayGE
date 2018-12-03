@@ -94,21 +94,34 @@ namespace KlayGE
 
 		virtual FencePtr MakeFence() = 0;
 
-		virtual RenderViewPtr Make1DRenderView(Texture& texture, int first_array_index, int array_size, int level) = 0;
-		virtual RenderViewPtr Make2DRenderView(Texture& texture, int first_array_index, int array_size, int level) = 0;
-		virtual RenderViewPtr Make2DRenderView(Texture& texture, int array_index, Texture::CubeFaces face, int level) = 0;
-		virtual RenderViewPtr Make2DRenderView(Texture& texture, int array_index, uint32_t slice, int level) = 0;
-		virtual RenderViewPtr MakeCubeRenderView(Texture& texture, int array_index, int level) = 0;
-		virtual RenderViewPtr Make3DRenderView(Texture& texture, int array_index, uint32_t first_slice, uint32_t num_slices, int level) = 0;
-		virtual RenderViewPtr MakeGraphicsBufferRenderView(GraphicsBuffer& gbuffer, uint32_t width, uint32_t height, ElementFormat pf) = 0;
+		virtual RenderViewPtr Make1DRenderView(TexturePtr const & texture, int first_array_index, int array_size, int level,
+			ElementFormat pf = EF_Unknown) = 0;
+		virtual RenderViewPtr Make2DRenderView(TexturePtr const & texture, int first_array_index, int array_size, int level,
+			ElementFormat pf = EF_Unknown) = 0;
+		virtual RenderViewPtr Make2DRenderView(TexturePtr const & texture, int array_index, Texture::CubeFaces face, int level,
+			ElementFormat pf = EF_Unknown) = 0;
+		virtual RenderViewPtr Make2DRenderView(TexturePtr const & texture, int array_index, uint32_t slice, int level,
+			ElementFormat pf = EF_Unknown) = 0;
+		virtual RenderViewPtr MakeCubeRenderView(TexturePtr const & texture, int array_index, int level, ElementFormat pf = EF_Unknown) = 0;
+		virtual RenderViewPtr Make3DRenderView(TexturePtr const & texture, int array_index, uint32_t first_slice, uint32_t num_slices,
+			int level, ElementFormat pf = EF_Unknown) = 0;
+		virtual RenderViewPtr MakeGraphicsBufferRenderView(GraphicsBufferPtr const & gbuffer, ElementFormat pf, uint32_t first_elem,
+			uint32_t num_elems) = 0;
+
 		virtual RenderViewPtr Make2DDepthStencilRenderView(uint32_t width, uint32_t height, ElementFormat pf,
 			uint32_t sample_count, uint32_t sample_quality) = 0;
-		virtual RenderViewPtr Make1DDepthStencilRenderView(Texture& texture, int first_array_index, int array_size, int level) = 0;
-		virtual RenderViewPtr Make2DDepthStencilRenderView(Texture& texture, int first_array_index, int array_size, int level) = 0;
-		virtual RenderViewPtr Make2DDepthStencilRenderView(Texture& texture, int array_index, Texture::CubeFaces face, int level) = 0;
-		virtual RenderViewPtr Make2DDepthStencilRenderView(Texture& texture, int array_index, uint32_t slice, int level) = 0;
-		virtual RenderViewPtr MakeCubeDepthStencilRenderView(Texture& texture, int array_index, int level) = 0;
-		virtual RenderViewPtr Make3DDepthStencilRenderView(Texture& texture, int array_index, uint32_t first_slice, uint32_t num_slices, int level) = 0;
+		virtual RenderViewPtr Make1DDepthStencilRenderView(TexturePtr const & texture, int first_array_index, int array_size, int level,
+			ElementFormat pf = EF_Unknown) = 0;
+		virtual RenderViewPtr Make2DDepthStencilRenderView(TexturePtr const & texture, int first_array_index, int array_size, int level,
+			ElementFormat pf = EF_Unknown) = 0;
+		virtual RenderViewPtr Make2DDepthStencilRenderView(TexturePtr const & texture, int array_index, Texture::CubeFaces face, int level,
+			ElementFormat pf = EF_Unknown) = 0;
+		virtual RenderViewPtr Make2DDepthStencilRenderView(TexturePtr const & texture, int array_index, uint32_t slice, int level,
+			ElementFormat pf = EF_Unknown) = 0;
+		virtual RenderViewPtr MakeCubeDepthStencilRenderView(TexturePtr const & texture, int array_index, int level,
+			ElementFormat pf = EF_Unknown) = 0;
+		virtual RenderViewPtr Make3DDepthStencilRenderView(TexturePtr const & texture, int array_index, uint32_t first_slice,
+			uint32_t num_slices, int level, ElementFormat pf = EF_Unknown) = 0;
 
 		virtual UnorderedAccessViewPtr Make1DUnorderedAccessView(TexturePtr const & texture, int first_array_index, int array_size,
 			int level, ElementFormat pf = EF_Unknown) = 0;

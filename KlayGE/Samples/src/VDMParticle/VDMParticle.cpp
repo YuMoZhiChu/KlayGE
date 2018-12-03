@@ -267,8 +267,8 @@ void VDMParticleApp::OnResize(uint32_t width, uint32_t height)
 	depth_to_linear_pp_->InputPin(0, scene_ds_tex_);
 	depth_to_linear_pp_->OutputPin(0, scene_depth_tex_);
 
-	scene_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*scene_tex_, 0, 1, 0));
-	scene_fb_->Attach(FrameBuffer::ATT_DepthStencil, rf.Make2DDepthStencilRenderView(*scene_ds_tex_, 0, 1, 0));
+	scene_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(scene_tex_, 0, 1, 0));
+	scene_fb_->Attach(FrameBuffer::ATT_DepthStencil, rf.Make2DDepthStencilRenderView(scene_ds_tex_, 0, 1, 0));
 
 	if (ps_)
 	{
@@ -284,24 +284,24 @@ void VDMParticleApp::OnResize(uint32_t width, uint32_t height)
 		{
 			low_res_color_texs_.push_back(rf.MakeTexture2D(w, h, 1, 1, fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write));
 			low_res_max_ds_texs_.push_back(rf.MakeTexture2D(w, h, 1, 1, EF_D24S8, 1, 0, EAH_GPU_Read | EAH_GPU_Write));
-			low_res_max_ds_views_.push_back(rf.Make2DDepthStencilRenderView(*low_res_max_ds_texs_.back(), 0, 1, 0));
+			low_res_max_ds_views_.push_back(rf.Make2DDepthStencilRenderView(low_res_max_ds_texs_.back(), 0, 1, 0));
 			w /= 2;
 			h /= 2;
 		}
 	}
 
 	
-	half_res_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*low_res_color_texs_[0], 0, 1, 0));
+	half_res_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(low_res_color_texs_[0], 0, 1, 0));
 	half_res_fb_->Attach(FrameBuffer::ATT_DepthStencil, low_res_max_ds_views_[0]);
 
-	quarter_res_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*low_res_color_texs_[1], 0, 1, 0));
+	quarter_res_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(low_res_color_texs_[1], 0, 1, 0));
 	quarter_res_fb_->Attach(FrameBuffer::ATT_DepthStencil, low_res_max_ds_views_[1]);
 
 	vdm_transition_tex_ = rf.MakeTexture2D(width / 4, height / 4, 1, 1, EF_GR16F, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
 	vdm_count_tex_ = rf.MakeTexture2D(width / 4, height / 4, 1, 1, EF_GR16F, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-	vdm_quarter_res_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*low_res_color_texs_[1], 0, 1, 0));
-	vdm_quarter_res_fb_->Attach(FrameBuffer::ATT_Color1, rf.Make2DRenderView(*vdm_transition_tex_, 0, 1, 0));
-	vdm_quarter_res_fb_->Attach(FrameBuffer::ATT_Color2, rf.Make2DRenderView(*vdm_count_tex_, 0, 1, 0));
+	vdm_quarter_res_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(low_res_color_texs_[1], 0, 1, 0));
+	vdm_quarter_res_fb_->Attach(FrameBuffer::ATT_Color1, rf.Make2DRenderView(vdm_transition_tex_, 0, 1, 0));
+	vdm_quarter_res_fb_->Attach(FrameBuffer::ATT_Color2, rf.Make2DRenderView(vdm_count_tex_, 0, 1, 0));
 	vdm_quarter_res_fb_->Attach(FrameBuffer::ATT_DepthStencil, low_res_max_ds_views_[1]);
 
 	copy_pp_->InputPin(0, scene_tex_);

@@ -709,7 +709,7 @@ void OITApp::OnResize(uint32_t width, uint32_t height)
 		for (size_t i = 0; i < depth_texs_.size(); ++ i)
 		{
 			depth_texs_[i] = rf.MakeTexture2D(width, height, 1, 1, ds_format, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-			depth_views_[i] = rf.Make2DDepthStencilRenderView(*depth_texs_[i], 0, 1, 0);
+			depth_views_[i] = rf.Make2DDepthStencilRenderView(depth_texs_[i], 0, 1, 0);
 		}
 	}
 	else
@@ -730,14 +730,14 @@ void OITApp::OnResize(uint32_t width, uint32_t height)
 	{
 		peeled_texs_[i] = rf.MakeTexture2D(width, height, 1, 1, peel_format, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
 
-		peeling_fbs_[i]->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*peeled_texs_[i], 0, 1, 0));
+		peeling_fbs_[i]->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(peeled_texs_[i], 0, 1, 0));
 		peeling_fbs_[i]->Attach(FrameBuffer::ATT_DepthStencil, depth_views_[i % 2]);
 	}
 	if (!depth_texture_support_)
 	{
 		for (size_t i = 0; i < depth_fbs_.size(); ++ i)
 		{
-			depth_fbs_[i]->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*depth_texs_[i], 0, 1, 0));
+			depth_fbs_[i]->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(depth_texs_[i], 0, 1, 0));
 			depth_fbs_[i]->Attach(FrameBuffer::ATT_DepthStencil, depth_views_[i]);
 		}
 	}
@@ -746,8 +746,8 @@ void OITApp::OnResize(uint32_t width, uint32_t height)
 		accum_tex_ = rf.MakeTexture2D(width, height, 1, 1, EF_ABGR16F, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
 		weight_tex_ = rf.MakeTexture2D(width, height, 1, 1, caps.mrt_independent_bit_depths_support ? EF_R16F : EF_ABGR16F,
 			1, 0, EAH_GPU_Read | EAH_GPU_Write);
-		weighted_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*accum_tex_, 0, 1, 0));
-		weighted_fb_->Attach(FrameBuffer::ATT_Color1, rf.Make2DRenderView(*weight_tex_, 0, 1, 0));
+		weighted_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(accum_tex_, 0, 1, 0));
+		weighted_fb_->Attach(FrameBuffer::ATT_Color1, rf.Make2DRenderView(weight_tex_, 0, 1, 0));
 	}
 
 	if (caps.max_simultaneous_uavs > 0)
@@ -755,7 +755,7 @@ void OITApp::OnResize(uint32_t width, uint32_t height)
 		auto const opaque_bg_format = caps.BestMatchTextureRenderTargetFormat({ EF_B10G11R11F, peel_format }, 1, 0);
 		BOOST_ASSERT(opaque_bg_format != EF_Unknown);
 		opaque_bg_tex_ = rf.MakeTexture2D(width, height, 1, 1, opaque_bg_format, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-		opaque_bg_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*opaque_bg_tex_, 0, 1, 0));
+		opaque_bg_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(opaque_bg_tex_, 0, 1, 0));
 		opaque_bg_fb_->Attach(FrameBuffer::ATT_DepthStencil, rf.Make2DDepthStencilRenderView(width, height, ds_format, 1, 0));
 		frag_link_buf_ = rf.MakeVertexBuffer(BU_Dynamic,
 			EAH_GPU_Read | EAH_GPU_Write | EAH_GPU_Unordered | EAH_GPU_Structured | EAH_Counter,

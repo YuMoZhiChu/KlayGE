@@ -83,6 +83,11 @@ namespace KlayGE
 		}
 	}
 
+	bool SoftwareGraphicsBuffer::HWResourceReady() const
+	{
+		return subres_data_ != nullptr;
+	}
+
 	void SoftwareGraphicsBuffer::DeleteHWResource()
 	{
 		subres_data_ = nullptr;

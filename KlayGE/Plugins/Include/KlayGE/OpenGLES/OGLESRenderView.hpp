@@ -34,7 +34,7 @@ namespace KlayGE
 
 		GLuint GLTexture() const
 		{
-			return tex_;
+			return gl_tex_;
 		}
 
 	protected:
@@ -43,8 +43,8 @@ namespace KlayGE
 		void DoDiscardDepthStencil();
 
 	protected:
-		GLuint tex_;
-		GLuint fbo_;
+		GLuint gl_tex_;
+		GLuint gl_fbo_;
 		GLuint index_;
 	};
 
@@ -88,7 +88,7 @@ namespace KlayGE
 	class OGLESTexture1DRenderView : public OGLESRenderView
 	{
 	public:
-		OGLESTexture1DRenderView(Texture& texture_1d, int array_index, int array_size, int level);
+		OGLESTexture1DRenderView(TexturePtr const & texture_1d, ElementFormat pf, int array_index, int array_size, int level);
 
 		void ClearColor(Color const & clr);
 
@@ -98,7 +98,6 @@ namespace KlayGE
 		void OnDetached(FrameBuffer& fb, uint32_t att);
 
 	private:
-		OGLESTexture1D& texture_1d_;
 		int array_index_;
 		int array_size_;
 		int level_;
@@ -110,7 +109,7 @@ namespace KlayGE
 	class OGLESTexture2DRenderView : public OGLESRenderView
 	{
 	public:
-		OGLESTexture2DRenderView(Texture& texture_2d, int array_index, int array_size, int level);
+		OGLESTexture2DRenderView(TexturePtr const & texture_2d, ElementFormat pf, int array_index, int array_size, int level);
 
 		void ClearColor(Color const & clr);
 
@@ -120,7 +119,6 @@ namespace KlayGE
 		void OnDetached(FrameBuffer& fb, uint32_t att);
 
 	private:
-		OGLESTexture2D& texture_2d_;
 		int array_index_;
 		int array_size_;
 		int level_;
@@ -132,7 +130,7 @@ namespace KlayGE
 	class OGLESTexture3DRenderView : public OGLESRenderView
 	{
 	public:
-		OGLESTexture3DRenderView(Texture& texture_3d, int array_index, uint32_t slice, int level);
+		OGLESTexture3DRenderView(TexturePtr const & texture_3d, ElementFormat pf, int array_index, uint32_t slice, int level);
 		~OGLESTexture3DRenderView();
 
 		void ClearColor(Color const & clr);
@@ -148,11 +146,10 @@ namespace KlayGE
 		void CopyToSlice(uint32_t att);
 
 	private:
-		OGLESTexture3D& texture_3d_;
 		uint32_t slice_;
 		int level_;
 		int copy_to_tex_;
-		GLuint tex_2d_;
+		GLuint gl_tex_2d_;
 	};
 
 	typedef std::shared_ptr<OGLESTexture3DRenderView> OGLES2Texture3DRenderViewPtr;
@@ -161,8 +158,8 @@ namespace KlayGE
 	class OGLESTextureCubeRenderView : public OGLESRenderView
 	{
 	public:
-		OGLESTextureCubeRenderView(Texture& texture_cube, int array_index, Texture::CubeFaces face, int level);
-		OGLESTextureCubeRenderView(Texture& texture_cube, int array_index, int level);
+		OGLESTextureCubeRenderView(TexturePtr const & texture_cube, ElementFormat pf, int array_index, Texture::CubeFaces face, int level);
+		OGLESTextureCubeRenderView(TexturePtr const & texture_cube, ElementFormat pf, int array_index, int level);
 
 		void ClearColor(Color const & clr);
 
@@ -172,7 +169,6 @@ namespace KlayGE
 		void OnDetached(FrameBuffer& fb, uint32_t att);
 
 	private:
-		OGLESTextureCube& texture_cube_;
 		Texture::CubeFaces face_;
 		int level_;
 	};
@@ -184,7 +180,7 @@ namespace KlayGE
 	{
 	public:
 		OGLESDepthStencilRenderView(uint32_t width, uint32_t height, ElementFormat pf, uint32_t sample_count, uint32_t sample_quality);
-		OGLESDepthStencilRenderView(Texture& texture, int array_index, int array_size, int level);
+		OGLESDepthStencilRenderView(TexturePtr const & texture, ElementFormat pf, int array_index, int array_size, int level);
 		~OGLESDepthStencilRenderView();
 
 		void ClearColor(Color const & clr);
@@ -200,7 +196,7 @@ namespace KlayGE
 		int array_size_;
 		int level_;
 		uint32_t sample_count_, sample_quality_;
-		GLuint rbos_[2];
+		GLuint gl_rbos_[2];
 	};
 
 	typedef std::shared_ptr<OGLESDepthStencilRenderView> OGLES2DepthStencilRenderViewPtr;
@@ -209,7 +205,8 @@ namespace KlayGE
 	class OGLESTextureCubeDepthStencilRenderView : public OGLESRenderView
 	{
 	public:
-		OGLESTextureCubeDepthStencilRenderView(Texture& texture_cube, int array_index, Texture::CubeFaces face, int level);
+		OGLESTextureCubeDepthStencilRenderView(TexturePtr const & texture_cube, ElementFormat pf, int array_index, Texture::CubeFaces face,
+			int level);
 
 		void ClearColor(Color const & clr);
 
@@ -219,7 +216,6 @@ namespace KlayGE
 		void OnDetached(FrameBuffer& fb, uint32_t att);
 
 	private:
-		OGLESTextureCube& texture_cube_;
 		Texture::CubeFaces face_;
 		int level_;
 	};
@@ -243,7 +239,7 @@ namespace KlayGE
 		void BindRenderBuffer();
 
 	protected:
-		GLuint rf_;
+		GLuint gl_rf_;
 	};
 
 	typedef std::shared_ptr<OGLESEAGLRenderView> OGLESEAGLRenderViewPtr;

@@ -246,7 +246,7 @@ namespace KlayGE
 			ds_tex_ = this->ScreenDepthStencilTexture();
 			if (ds_tex_ && (screen_width == render_width) && (screen_height == render_height))
 			{
-				ds_view = rf.Make2DDepthStencilRenderView(*ds_tex_, 0, 1, 0);
+				ds_view = rf.Make2DDepthStencilRenderView(ds_tex_, 0, 1, 0);
 			}
 			else
 			{
@@ -265,7 +265,7 @@ namespace KlayGE
 						fmt = EF_D16;
 					}
 					ds_tex_ = rf.MakeTexture2D(render_width, render_height, 1, 1, fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-					ds_view = rf.Make2DDepthStencilRenderView(*ds_tex_, 0, 1, 0);
+					ds_view = rf.Make2DDepthStencilRenderView(ds_tex_, 0, 1, 0);
 				}
 				else
 				{
@@ -300,7 +300,7 @@ namespace KlayGE
 
 			mono_tex_ = rf.MakeTexture2D(screen_width, screen_height, 1, 1,
 				fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-			mono_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*mono_tex_, 0, 1, 0));
+			mono_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(mono_tex_, 0, 1, 0));
 
 			default_frame_buffers_[0] = default_frame_buffers_[1]
 				= default_frame_buffers_[2] = mono_frame_buffer_;
@@ -312,7 +312,7 @@ namespace KlayGE
 			BOOST_ASSERT(fmt != EF_Unknown);
 
 			overlay_tex_ = rf.MakeTexture2D(screen_width, screen_height, 1, 1, fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-			overlay_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*overlay_tex_, 0, 1, 0));
+			overlay_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(overlay_tex_, 0, 1, 0));
 
 			RenderViewPtr screen_size_ds_view;
 			if (need_resize)
@@ -337,7 +337,7 @@ namespace KlayGE
 
 				resize_tex_ = rf.MakeTexture2D(render_width, render_height, 1, 1,
 					fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-				resize_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*resize_tex_, 0, 1, 0));
+				resize_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(resize_tex_, 0, 1, 0));
 
 				ElementFormat ds_fmt;
 				if ((settings.depth_stencil_fmt != EF_Unknown) && caps.RenderTargetFormatSupport(settings.depth_stencil_fmt, 1, 0))
@@ -388,7 +388,7 @@ namespace KlayGE
 			BOOST_ASSERT(fmt != EF_Unknown);
 
 			post_tone_mapping_tex_ = rf.MakeTexture2D(render_width, render_height, 1, 1, fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-			post_tone_mapping_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*post_tone_mapping_tex_, 0, 1, 0));
+			post_tone_mapping_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(post_tone_mapping_tex_, 0, 1, 0));
 			post_tone_mapping_frame_buffer_->Attach(FrameBuffer::ATT_DepthStencil, ds_view);
 
 			default_frame_buffers_[0] = default_frame_buffers_[1] = post_tone_mapping_frame_buffer_;
@@ -403,7 +403,7 @@ namespace KlayGE
 				: MakeArrayRef({ EF_ABGR8_SRGB, EF_ARGB8_SRGB, EF_ABGR8, EF_ARGB8 }), 1, 0);
 			BOOST_ASSERT(fmt != EF_Unknown);
 			hdr_tex_ = rf.MakeTexture2D(render_width, render_height, 4, 1, fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write | EAH_Generate_Mips);
-			hdr_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*hdr_tex_, 0, 1, 0));
+			hdr_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(hdr_tex_, 0, 1, 0));
 			hdr_frame_buffer_->Attach(FrameBuffer::ATT_DepthStencil, ds_view);
 
 			default_frame_buffers_[0] = hdr_frame_buffer_;
@@ -656,14 +656,14 @@ namespace KlayGE
 				ds_tex_ = this->ScreenDepthStencilTexture();
 				if (ds_tex_ && (new_screen_width == new_render_width) && (new_screen_height == new_render_height))
 				{
-					ds_view = rf.Make2DDepthStencilRenderView(*ds_tex_, 0, 1, 0);
+					ds_view = rf.Make2DDepthStencilRenderView(ds_tex_, 0, 1, 0);
 				}
 				else
 				{
 					if (caps.depth_texture_support)
 					{
 						ds_tex_ = rf.MakeTexture2D(new_render_width, new_render_height, 1, 1, fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-						ds_view = rf.Make2DDepthStencilRenderView(*ds_tex_, 0, 1, 0);
+						ds_view = rf.Make2DDepthStencilRenderView(ds_tex_, 0, 1, 0);
 					}
 					else
 					{
@@ -690,7 +690,7 @@ namespace KlayGE
 			{
 				ElementFormat fmt = mono_tex_->Format();
 				mono_tex_ = rf.MakeTexture2D(new_render_width, new_render_height, 1, 1, fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-				mono_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*mono_tex_, 0, 1, 0));
+				mono_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(mono_tex_, 0, 1, 0));
 
 				default_frame_buffers_[0] = default_frame_buffers_[1] = default_frame_buffers_[2] = mono_frame_buffer_;
 			}
@@ -717,7 +717,7 @@ namespace KlayGE
 					}
 
 					resize_tex_ = rf.MakeTexture2D(new_render_width, new_render_height, 1, 1, fmt, 1, 0, EAH_GPU_Read | EAH_GPU_Write);
-					resize_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*resize_tex_, 0, 1, 0));
+					resize_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(resize_tex_, 0, 1, 0));
 
 					ElementFormat ds_fmt;
 					if ((settings.depth_stencil_fmt != EF_Unknown) && caps.RenderTargetFormatSupport(settings.depth_stencil_fmt, 1, 0))
@@ -777,7 +777,7 @@ namespace KlayGE
 				ElementFormat fmt = post_tone_mapping_tex_->Format();
 				post_tone_mapping_tex_ = rf.MakeTexture2D(new_render_width, new_render_height, 1, 1, fmt, 1, 0,
 					EAH_GPU_Read | EAH_GPU_Write);
-				post_tone_mapping_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*post_tone_mapping_tex_, 0, 1, 0));
+				post_tone_mapping_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(post_tone_mapping_tex_, 0, 1, 0));
 				post_tone_mapping_frame_buffer_->Attach(FrameBuffer::ATT_DepthStencil, ds_view);
 
 				default_frame_buffers_[0] = default_frame_buffers_[1] = post_tone_mapping_frame_buffer_;
@@ -787,7 +787,7 @@ namespace KlayGE
 				ElementFormat fmt = hdr_tex_->Format();
 				hdr_tex_ = rf.MakeTexture2D(new_render_width, new_render_height, 4, 1, fmt, 1, 0,
 					EAH_GPU_Read | EAH_GPU_Write | EAH_Generate_Mips);
-				hdr_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*hdr_tex_, 0, 1, 0));
+				hdr_frame_buffer_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(hdr_tex_, 0, 1, 0));
 				hdr_frame_buffer_->Attach(FrameBuffer::ATT_DepthStencil, ds_view);
 
 				default_frame_buffers_[0] = hdr_frame_buffer_;

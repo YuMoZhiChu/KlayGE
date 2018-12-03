@@ -266,8 +266,8 @@ namespace KlayGE
 		RenderFactory& rf = Context::Instance().RenderFactoryInstance();
 		RenderEngine& re = rf.RenderEngineInstance();
 
-		tex_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(*out_real, 0, 1, 0));
-		tex_fb_->Attach(FrameBuffer::ATT_Color1, rf.Make2DRenderView(*out_imag, 0, 1, 0));
+		tex_fb_->Attach(FrameBuffer::ATT_Color0, rf.Make2DRenderView(out_real, 0, 1, 0));
+		tex_fb_->Attach(FrameBuffer::ATT_Color1, rf.Make2DRenderView(out_imag, 0, 1, 0));
 
 		FrameBufferPtr old_fb = re.CurFrameBuffer();
 		re.BindFrameBuffer(FrameBufferPtr());

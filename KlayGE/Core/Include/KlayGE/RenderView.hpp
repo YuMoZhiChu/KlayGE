@@ -50,6 +50,52 @@ namespace KlayGE
 			return sample_quality_;
 		}
 
+		TexturePtr const & TextureResource() const
+		{
+			return tex_;
+		}
+		uint32_t FirstArrayIndex() const
+		{
+			return first_array_index_;
+		}
+		uint32_t ArraySize() const
+		{
+			return array_size_;
+		}
+		uint32_t Level() const
+		{
+			return level_;
+		}
+		uint32_t FirstSlice() const
+		{
+			return first_slice_;
+		}
+		uint32_t NumSlices() const
+		{
+			return num_slices_;
+		}
+		Texture::CubeFaces FirstFace() const
+		{
+			return first_face_;
+		}
+		uint32_t NumFaces() const
+		{
+			return num_faces_;
+		}
+
+		GraphicsBufferPtr const & BufferResource() const
+		{
+			return buff_;
+		}
+		uint32_t FirstElement() const
+		{
+			return first_elem_;
+		}
+		uint32_t NumElements() const
+		{
+			return num_elems_;
+		}
+
 		virtual void ClearColor(Color const & clr) = 0;
 		virtual void ClearDepth(float depth) = 0;
 		virtual void ClearStencil(int32_t stencil) = 0;
@@ -66,12 +112,30 @@ namespace KlayGE
 		ElementFormat pf_;
 		uint32_t sample_count_;
 		uint32_t sample_quality_;
+
+		// For textures
+		TexturePtr tex_;
+		uint32_t first_array_index_;
+		uint32_t array_size_;
+		uint32_t level_;
+
+		// For 3D textures
+		uint32_t first_slice_;
+		uint32_t num_slices_;
+
+		// For cube textures
+		Texture::CubeFaces first_face_;
+		uint32_t num_faces_;
+
+		// For buffers
+		GraphicsBufferPtr buff_;
+		uint32_t first_elem_;
+		uint32_t num_elems_;
 	};
 
 	class KLAYGE_CORE_API UnorderedAccessView : boost::noncopyable
 	{
 	public:
-		UnorderedAccessView();
 		virtual ~UnorderedAccessView();
 
 		ElementFormat Format() const
